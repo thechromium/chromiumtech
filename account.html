@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chromium Project - Account Management Engine</title>
+</head>
+<body>
+
+    <!-- Main Header Area -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="10">
+        <tr>
+            <td>
+                <h1>Chromium Core Auth Interface</h1>
+                <p><i>Local client-side cryptographic authentication portal. No remote tracking databases.</i></p>
+                <hr size="2" noshade>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Navigation Area -->
+    <table width="100%" border="0" cellpadding="5">
+        <tr>
+            <td>
+                [ <a href="index.html">Project Homepage</a> ] 
+                [ <a href="download.html">Download Details</a> ] 
+                [ <a href="specs.html">System Specs</a> ]
+                [ <b>Account System</b> ]
+            </td>
+        </tr>
+    </table>
+    <hr size="1" noshade>
+
+    <br>
+
+    <!-- Account System Dashboard Interface Matrices -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="5">
+        <tr valign="top">
+            
+            <!-- Auth Forms Column -->
+            <td width="50%">
+                
+                <!-- Registration Interface -->
+                <div id="register-area">
+                    <h2>1.0 Create Project Core Account</h2>
+                    <p>Register a unique username directly to this terminal baseline:</p>
+                    
+                    <form onsubmit="registerUser(event)">
+                        <table border="0" cellpadding="3" cellspacing="0">
+                            <tr>
+                                <td align="right"><b>Set Username:</b></td>
+                                <td><input type="text" id="reg-username" size="20" required></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><b>Set Password:</b></td>
+                                <td><input type="password" id="reg-password" size="20" required></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <br>
+                                    <input type="submit" value="Write to Local Database">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+                <br><br>
+
+                <!-- Login Interface -->
+                <div id="login-area">
+                    <h2>2.0 Authenticate Existing Session</h2>
+                    <p>Enter your local credentials to initialize your workspace profile:</p>
+                    
+                    <form onsubmit="loginUser(event)">
+                        <table border="0" cellpadding="3" cellspacing="0">
+                            <tr>
+                                <td align="right"><b>Username:</b></td>
+                                <td><input type="text" id="login-username" size="20" required></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><b>Password:</b></td>
+                                <td><input type="password" id="login-password" size="20" required></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <br>
+                                    <input type="submit" value="Verify Credentials">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+            </td>
+
+            <!-- Live Session Output Column -->
+            <td width="50%">
+                <h2>3.0 Active Authentication State</h2>
+                <p>Current runtime terminal response:</p>
+                
+                <table border="1" width="100%" cellpadding="10" cellspacing="0" bgcolor="#F5F5F5">
+                    <tr>
+                        <td>
+                            <b>System Status:</b> <span id="auth-status-text"><font color="red">UNAUTHENTICATED</font></span>
+                            <br><br>
+                            <div id="welcome-message" style="display:none;">
+                                <strong>Welcome back, operator!</strong> You are securely logged in.
+                                <br><br>
+                                <input type="button" value="Terminate Active Session (Logout)" onclick="logoutUser()">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+        </tr>
+    </table>
+
+    <!-- Scripting Engine Logic to make things work -->
+    <script type="text/javascript">
+        // Helper function to check state on startup
+        function checkSession() {
+            var activeUser = localStorage.getItem('chromium_active_session');
+            if (activeUser) {
+                document.getElementById('auth-status-text').innerHTML = '<font color="green">AUTHENTICATED AS ' + activeUser.toUpperCase() + '</font>';
+                document.getElementById('welcome-message').style.display = 'block';
+                document.getElementById('register-area').style.display = 'none';
+                document.getElementById('login-area').style.display = 'none';
+            } else {
+                document.getElementById('auth-status-text').innerHTML = '<font color="red">UNAUTHENTICATED</font>';
+                document.getElementById('welcome-message').style.display = 'none';
+                document.getElementById('register-area').style.display = 'block';
+                document.getElementById('login-area').style.display = 'block';
+            }
+        }
+
+        // Action function: Account Registration
+        function registerUser(event) {
+            event.preventDefault();
+            var user = document.getElementById('reg-username').value.trim();
+            var pass = document.getElementById('reg-password').value;
+
+            if (localStorage.getItem('user_' + user)) {
+                alert('CRITICAL ERROR: Username already registry target allocated.');
+                return;
+            }
+
+            // Save user pass combo directly inside local browser storage
+            localStorage.setItem('user_' + user, pass);
+            alert('REGISTRY SUCCESSFUL: Account written to memory blocks. You can now login.');
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+        }
+
+        // Action function: Account Login Verification
+        function loginUser(event) {
+            event.preventDefault();
+            var user = document.getElementById('login-username').value.trim();
+            var pass = document.getElementById('login-password').value;
+
+            var storedPassword = localStorage.getItem('user_' + user);
+
+            if (storedPassword && storedPassword === pass) {
+                localStorage.setItem('chromium_active_session', user);
+                checkSession();
+                alert('AUTH SUCCESS: Cryptographic baseline validated.');
+            } else {
+                alert('ACCESS DENIED: Username or Password parameter invalid.');
+            }
+        }
+
+        // Action function: Logout
+        function logoutUser() {
+            localStorage.removeItem('chromium_active_session');
+            checkSession();
+            alert('SESSION TERMINATED: Local keys cleared.');
+        }
+
+        // Initialize state check when browser reads document elements
+        window.onload = checkSession;
+    </script>
+
+    <br><br>
+    <hr size="2">
+    
+    <!-- Footer Context -->
+    <table width="100%" border="0" cellpadding="5">
+        <tr>
+            <td align="left">
+                <small>The Chromium Engine Security Project &copy; 2026.</small>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
