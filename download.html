@@ -6,6 +6,30 @@
 </head>
 <body>
 
+    <!-- Unified Auth Top Header Component -->
+    <table width="100%" border="1" cellpadding="5" cellspacing="0" bgcolor="#F5F5F5">
+        <tr>
+            <td width="50%">
+                <strong>Chromium Project Security Terminal Baseline v1.0.154</strong>
+            </td>
+            <td width="50%" align="right">
+                <div id="header-auth-loggedout">
+                    <form onsubmit="headerLogin(event)" style="display:inline;">
+                        <b>User:</b> <input type="text" id="header-user" size="10" placeholder="Username" required>
+                        <b>Pass:</b> <input type="password" id="header-pass" size="10" placeholder="Password" required>
+                        <input type="submit" value="Log In">
+                    </form>
+                </div>
+                <div id="header-auth-loggedin" style="display:none;">
+                    Operator: <b><span id="header-display-name"></span></b> 
+                    [<a href="#" onclick="headerLogout(event)"><font color="red">Log Out</font></a>]
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
     <!-- Main Header Area -->
     <table width="100%" border="0" cellspacing="0" cellpadding="10">
         <tr>
@@ -49,7 +73,12 @@
                     </tr>
                 </table>
 
-                <hr size="1" noshade>
+            </td>
+        </tr>
+    </table>
+
+    <br><br>
+    <hr size="2">
     
     <!-- Footer Context -->
     <table width="100%" border="0" cellpadding="5">
@@ -60,5 +89,42 @@
         </tr>
     </table>
 
+    <!-- Cryptographic Local Storage Script Routines -->
+    <script type="text/javascript">
+        function checkState() {
+            var activeSession = localStorage.getItem('chromium_user_session');
+            if (activeSession) {
+                document.getElementById('header-auth-loggedout').style.display = 'none';
+                document.getElementById('header-auth-loggedin').style.display = 'block';
+                document.getElementById('header-display-name').innerText = activeSession;
+            } else {
+                document.getElementById('header-auth-loggedout').style.display = 'block';
+                document.getElementById('header-auth-loggedin').style.display = 'none';
+            }
+        }
+
+        function headerLogin(e) {
+            e.preventDefault();
+            var u = document.getElementById('header-user').value.trim();
+            var p = document.getElementById('header-pass').value;
+            var stored = localStorage.getItem('db_user_' + u);
+            if (stored && stored === p) {
+                localStorage.setItem('chromium_user_session', u);
+                checkState();
+                alert('AUTHENTICATION SUCCESSFUL.');
+            } else {
+                alert('ACCESS DENIED: Bad username or password parameter validation.');
+            }
+        }
+
+        function headerLogout(e) {
+            e.preventDefault();
+            localStorage.removeItem('chromium_user_session');
+            alert('SESSION CLEARED FROM STORAGE BLOCKS.');
+            window.location.reload();
+        }
+
+        window.onload = checkState;
+    </script>
 </body>
 </html>
