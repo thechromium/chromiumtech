@@ -6,7 +6,36 @@
 </head>
 <body>
 
-    <!-- Main Header Area -->
+    <!-- Unified Auth Top Header Component -->
+    <table width="100%" border="1" cellpadding="5" cellspacing="0" bgcolor="#F5F5F5">
+        <tr>
+            <!-- Left Side Title Element -->
+            <td width="50%">
+                <strong>Chromium Project Security Terminal Baseline v1.0.154</strong>
+            </td>
+            <!-- Right Side Dynamic Account Form Box -->
+            <td width="50%" align="right">
+                <!-- Logged Out View Layout -->
+                <div id="header-auth-loggedout">
+                    <form onsubmit="headerLogin(event)" style="display:inline;">
+                        <b>User:</b> <input type="text" id="header-user" size="10" placeholder="Username" required>
+                        <b>Pass:</b> <input type="password" id="header-pass" size="10" placeholder="Password" required>
+                        <input type="submit" value="Log In">
+                    </form>
+                    | [Create Account]</a>
+                </div>
+                <!-- Logged In View Layout -->
+                <div id="header-auth-loggedin" style="display:none;">
+                    Operator: <b><span id="header-display-name"></span></b> 
+                    [<a href="#" onclick="headerLogout(event)"><font color="red">Log Out</font></a>]
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    <!-- Main Title Banner Header Area -->
     <table width="100%" border="0" cellspacing="0" cellpadding="10">
         <tr>
             <td>
@@ -28,22 +57,33 @@
 
     <br>
 
-    <!-- Main Content Area (No Navigation Sidebar) -->
+    <!-- Main Content Area Matrix -->
     <table width="100%" border="0" cellspacing="0" cellpadding="5">
         <tr valign="top">
-            <td>
+            <!-- Sidebar Navigation Left Column -->
+            <td width="20%">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="index.html"><b>Project Homepage</b></a></li>
+                    <li><a href="download.html">Download Details</a></li>
+                    <li><a href="specs.html">System Specs</a></li>
+                </ul>
+            </td>
+
+            <!-- Content Area Right Column -->
+            <td width="80%">
                 
                 <!-- Quick Download Block -->
                 <h2>Quick Download Link</h2>
                 <p>Retrieve the standalone setup executable directly from our primary transmission target:</p>
-                <table border="1" width="60%" cellpadding="10" cellspacing="0" bgcolor="#F0F8FF">
+                <table border="1" width="100%" cellpadding="10" cellspacing="0" bgcolor="#F0F8FF">
                     <tr>
                         <td>
                             <strong>Target File:</strong> <code>1.0.154_chromesetup_154_59.exe</code>
                             <br><br>
                             <b><a href="1.0.154_chromesetup_154_59.exe" download="1.0.154_chromesetup_154_59.exe">[ CLICK HERE TO DOWNLOAD 1.0.154_CHROMESETUP_154_59.EXE ]</a></b>
                             <br><br>
-                            To read deep documentation or view file diagnostics, navigate to our separate <a href="download.html"><b>Download Specification & Issue Report Page</b></a>.
+                            To read deep documentation or view file diagnostics, navigate to our separate <a href="download.html"><b>Download Specification Page</b></a>.
                         </td>
                     </tr>
                 </table>
@@ -52,7 +92,6 @@
 
                 <!-- Software News Section -->
                 <h2>Software Development News</h2>
-                
                 <table border="1" width="100%" cellpadding="8" cellspacing="0">
                     <tr bgcolor="#E0E0E0">
                         <td width="20%"><b>Date Posted</b></td>
@@ -72,14 +111,36 @@
                             Optimized the initial layout parsing layers. The browser client now handles large, structurally deep table matrices up to 35% faster. System level font mappings have been unified to guarantee default serif and sans-serif user-agent overrides fall back securely.
                         </td>
                     </tr>
-                    <tr>
-                        <td valign="top">October 11, 2026</td>
-                        <td>
-                            <b>Codecs Strip and Sandbox Security Initialization</b><br>
-                            Completed the complete removal of proprietary runtime media decoding arrays. The compilation profile has been streamlined to keep runtime memory footprints underneath strict resource caps.
-                        </td>
-                    </tr>
                 </table>
+
+                <br><br>
+                <hr size="1" noshade>
+
+                <!-- Local Registration Fallback Core Block -->
+                <a name="register-anchor"></a>
+                <div id="index-registration-block">
+                    <h2>Account Registration Database System</h2>
+                    <p>Register a unique username directly to this terminal baseline engine configuration:</p>
+                    <form onsubmit="headerRegister(event)">
+                        <table border="0" cellpadding="3" cellspacing="0">
+                            <tr>
+                                <td align="right"><b>Set Username:</b></td>
+                                <td><input type="text" id="reg-user" size="20" required></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><b>Set Password:</b></td>
+                                <td><input type="password" id="reg-pass" size="20" required></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <br>
+                                    <input type="submit" value="Write Account to Local Database">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
 
             </td>
         </tr>
@@ -94,11 +155,62 @@
             <td align="left">
                 <small>The Chromium Project &copy; 2026.</small>
             </td>
-            <td align="right">
-                <small><a href="download.html">Download Page</a> | <a href="specs.html">System Requirements</a></small>
-            </td>
         </tr>
     </table>
 
+    <!-- Cryptographic Local Storage Script Routines -->
+    <script type="text/javascript">
+        function checkState() {
+            var activeSession = localStorage.getItem('chromium_user_session');
+            if (activeSession) {
+                document.getElementById('header-auth-loggedout').style.display = 'none';
+                document.getElementById('header-auth-loggedin').style.display = 'block';
+                document.getElementById('header-display-name').innerText = activeSession;
+                if(document.getElementById('index-registration-block')) {
+                    document.getElementById('index-registration-block').innerHTML = '<table border="1" cellpadding="10" bgcolor="#E6F4EA"><tr><td><b>Active Operational Status:</b> You are securely authenticated inside the system workspace as <u>' + activeSession + '</u>.</td></tr></table>';
+                }
+            } else {
+                document.getElementById('header-auth-loggedout').style.display = 'block';
+                document.getElementById('header-auth-loggedin').style.display = 'none';
+            }
+        }
+
+        function headerLogin(e) {
+            e.preventDefault();
+            var u = document.getElementById('header-user').value.trim();
+            var p = document.getElementById('header-pass').value;
+            var stored = localStorage.getItem('db_user_' + u);
+            if (stored && stored === p) {
+                localStorage.setItem('chromium_user_session', u);
+                checkState();
+                alert('AUTHENTICATION SUCCESSFUL.');
+            } else {
+                alert('ACCESS DENIED: Bad username or password parameter validation.');
+            }
+        }
+
+        function headerRegister(e) {
+            e.preventDefault();
+            var u = document.getElementById('reg-user').value.trim();
+            var p = document.getElementById('reg-pass').value;
+            if(localStorage.getItem('db_user_' + u)) {
+                alert('REGISTRY REFUSED: Identity directory sector already allocated.');
+                return;
+            }
+            localStorage.setItem('db_user_' + u, p);
+            localStorage.setItem('chromium_user_session', u);
+            checkState();
+            alert('ACCOUNT SUCCESSFULLY DEPLOYED TO LOCAL MEMORY SECTORS.');
+        }
+
+        function headerLogout(e) {
+            e.preventDefault();
+            localStorage.removeItem('chromium_user_session');
+            alert('SESSION CLEARED FROM STORAGE BLOCKS.');
+            window.location.reload();
+        }
+
+        window.onload = checkState;
+    </script>
 </body>
 </html>
