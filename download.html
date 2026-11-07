@@ -55,19 +55,23 @@
                 <h2>2.0 Report an Operational Defect</h2>
                 <p>If the browser setup fails to execute or crashes on launch, submit a hardware dump parameter log below:</p>
                 
-                <form action="https://formspree.io" method="POST">
+        
+                <form action="https://docs.google.com/forms/d/e/1FAIpQLSekcNimXPJR8ScVSRixMmTKWtV2sGYAa9k00SBtRzUH99Hi8Q/viewform?usp=publish-editor" method="POST">
                     <table border="0" cellpadding="3" cellspacing="0">
                         <tr>
                             <td align="right"><b>Your Email:</b></td>
-                            <td><input type="email" name="_replyto" size="35" required></td>
+                            <!-- Update the entry.XXXXXX name value with your specific Google Form field ID -->
+                            <td><input type="email" name="entry.EMAIL_FIELD_ID" size="35" required></td>
                         </tr>
                         <tr>
                             <td align="right" valign="top"><b>Error Message:</b></td>
-                            <td><input type="text" name="error_string" size="50" placeholder="e.g., Target thread access violation" required></td>
+                            <!-- Update the entry.XXXXXX name value with your specific Google Form field ID -->
+                            <td><input type="text" name="entry.ERROR_FIELD_ID" size="50" placeholder="e.g., Target thread access violation" required></td>
                         </tr>
                         <tr>
                             <td align="right" valign="top"><b>Log Content:</b></td>
-                            <td><textarea name="dump_log" rows="6" cols="50" placeholder="Paste command line stack trace diagnostics here..." required></textarea></td>
+                            <!-- Update the entry.XXXXXX name value with your specific Google Form field ID -->
+                            <td><textarea name="entry.LOG_FIELD_ID" rows="6" cols="50" placeholder="Paste command line stack trace diagnostics here..." required></textarea></td>
                         </tr>
                         <tr>
                             <td></td>
